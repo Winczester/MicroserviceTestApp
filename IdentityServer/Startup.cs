@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4.Test;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,10 +18,14 @@ namespace IdentityServer
         {
 
             var builder = services.AddIdentityServer()
+                .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiResources(Config.APIs)
-                .AddInMemoryClients(Config.Clients);
+                .AddInMemoryClients(Config.Clients)
+                .AddTestUsers(Config.GetUsers);
 
             builder.AddDeveloperSigningCredential();
+
+            services.AddMvc();
 
         }
 
@@ -32,12 +37,11 @@ namespace IdentityServer
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+
             app.UseIdentityServer();
 
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
