@@ -2,26 +2,46 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Xsl;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Test;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IdentityServer
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; set; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
 
             var builder = services.AddIdentityServer()
-                .AddInMemoryIdentityResources(Config.IdentityResources)
-                .AddInMemoryApiResources(Config.APIs)
-                .AddInMemoryClients(Config.Clients)
-                .AddTestUsers(Config.GetUsers);
+                //.AddInMemoryIdentityResources(Config.IdentityResources)
+                //.AddInMemoryApiResources(Config.APIs)
+                //.AddInMemoryClients(Config.Clients)
+                .AddTestUsers(Config.GetUsers)
+                .AddConfigurationStore(options => options.ConfigureDbContext = conf =>
+                    {
+                        conf.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), optionsBuilder => optionsBuilder.MigrationsAssembly(typeof(Startup).Assembly.GetName().Name));
+                    })
+                .AddOperationalStore(options => options.ConfigureDbContext = conf =>
+                    {
+                        conf.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), optionsBuilder => optionsBuilder.MigrationsAssembly(typeof(Startup).Assembly.GetName().Name));
+                    });
 
             builder.AddDeveloperSigningCredential();
 
@@ -37,11 +57,51 @@ namespace IdentityServer
                 app.UseDeveloperExceptionPage();
             }
 
+            //FillDB(app);
+
             app.UseStaticFiles();
 
             app.UseIdentityServer();
 
             app.UseMvcWithDefaultRoute();
         }
+
+        public void FillDB(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+                if (!context.Clients.Any())
+                {
+                    foreach (var client in Config.Clients)
+                    {
+                        context.Clients.Add(client.ToEntity());
+                    }
+
+                    context.SaveChanges();
+                }
+
+                if (!context.IdentityResources.Any())
+                {
+                    foreach (var identityResource in Config.IdentityResources)
+                    {
+                        context.IdentityResources.Add(identityResource.ToEntity());
+                    }
+
+                    context.SaveChanges();
+                }
+
+                if (!context.ApiResources.Any())
+                {
+                    foreach (var apiResource in Config.APIs)
+                    {
+                        context.ApiResources.Add(apiResource.ToEntity());
+                    }
+
+                    context.SaveChanges();
+                }
+            }
+        }
+
     }
 }
