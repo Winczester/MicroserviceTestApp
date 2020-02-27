@@ -7,11 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebAPI", "TestWebAPI\TestWebAPI.csproj", "{C0CCC486-DA71-49F2-8919-3E05DA544D3E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer", "IdentityServer\IdentityServer.csproj", "{7A118E1F-B3C7-4274-A4C6-23EE52E00A87}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestMVCApp", "TestMVCApp\TestMVCApp.csproj", "{27A0A2DA-F521-4988-B819-FB4EFD575C32}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServerAspNetIdentity", "IdentityServerAspNetIdentity\IdentityServerAspNetIdentity.csproj", "{D6BC731F-893F-451B-BF53-66747BA0B093}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerAspNetIdentity", "IdentityServerAspNetIdentity\IdentityServerAspNetIdentity.csproj", "{D6BC731F-893F-451B-BF53-66747BA0B093}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,14 +23,6 @@ Global
 		{C0CCC486-DA71-49F2-8919-3E05DA544D3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0CCC486-DA71-49F2-8919-3E05DA544D3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0CCC486-DA71-49F2-8919-3E05DA544D3E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A118E1F-B3C7-4274-A4C6-23EE52E00A87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A118E1F-B3C7-4274-A4C6-23EE52E00A87}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A118E1F-B3C7-4274-A4C6-23EE52E00A87}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A118E1F-B3C7-4274-A4C6-23EE52E00A87}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27A0A2DA-F521-4988-B819-FB4EFD575C32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27A0A2DA-F521-4988-B819-FB4EFD575C32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27A0A2DA-F521-4988-B819-FB4EFD575C32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27A0A2DA-F521-4988-B819-FB4EFD575C32}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D6BC731F-893F-451B-BF53-66747BA0B093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D6BC731F-893F-451B-BF53-66747BA0B093}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6BC731F-893F-451B-BF53-66747BA0B093}.Release|Any CPU.ActiveCfg = Release|Any CPU

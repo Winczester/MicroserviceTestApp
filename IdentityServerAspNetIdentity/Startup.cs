@@ -38,7 +38,11 @@ namespace IdentityServerAspNetIdentity
                 .AddEntityFrameworkStores<IdentityDBContext>()
                 .AddDefaultTokenProviders();
 
-            var serverBuilder = services.AddIdentityServer()
+            var serverBuilder = services.AddIdentityServer(options =>
+                {
+                    
+                })
+                .AddJwtBearerClientAuthentication()
                 .AddConfigurationStore(storeOptions => storeOptions.ConfigureDbContext = builder =>
                     builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
                 .AddOperationalStore(storeOptions => storeOptions.ConfigureDbContext = builder =>
@@ -46,8 +50,8 @@ namespace IdentityServerAspNetIdentity
                 .AddAspNetIdentity<UserModel>();
 
             serverBuilder.AddDeveloperSigningCredential();
-            
-                services.AddMvc();
+
+            services.AddMvc();
 
         }
 
@@ -59,7 +63,7 @@ namespace IdentityServerAspNetIdentity
                 app.UseDeveloperExceptionPage();
             }
 
-            FillDB(app);
+            //FillDB(app);
 
             app.UseStaticFiles();
 
